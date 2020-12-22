@@ -1,0 +1,26 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %} About {% endblock title %}
+
+{% block content %}
+
+<div class="container-fluid pt-6 bg-secondary">
+    <h2>About</h2>
+    <p>About the creators of this project.</p>
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item"><a href="https://github.com/Serfati">Avihai Serfati</a> - Front end developer</li>
+        <li class="list-group-item"><a href="https://github.com/Serfati">Haim Rayes</a> - Back end developer</li>
+    </ul>
+
+    {% include "includes/footer.html" %}
+</div>
+
+{% endblock content %}
+
+<!-- Specific JS goes HERE -->
+{% block javascripts %}
+<script>
+$('.nav-item a').removeClass('active');
+$('.data-item a').addClass('active');
+</script>
+{% endblock javascripts %}
