@@ -6,6 +6,7 @@ import pandas as pd
 import plotly.graph_objs as go
 from plotly.offline import plot
 from . import getdata
+import plotly.express as px
 
 def usa_map():
     # Map of USA subdivided by FIPS-codes (counties), showing cases per-capita basis
@@ -23,7 +24,7 @@ def usa_map():
             z = df['cases/capita'],
             marker_opacity = 0.75,
             marker_line_width = 0,
-            colorscale = [[0, '#FFFAF4'], [.005, '#FFE4CC'], [.030, '#DC654F'], [.060, '#CA3328'], [.080, '#B80000'], [.100, '#7C100C'], [.150, '#580000'], [.175, '#300000'], [1, '#170707']]
+            colorscale="Cividis"
         )
     )
 

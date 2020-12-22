@@ -122,7 +122,7 @@ function load_world_map() {
                             text: "Confirmed"
                         }
                     },
-                    colorscale: [[0, "hsl(255, 95%, 26%)"], [0.5, "hsl(330, 60%, 50%)"], [1, "hsl(60, 100%, 60%)"]],
+                    colorscale: "Cividis",
                     showscale: true,
                     size: Object.values(data["Confirmed"]),
                     sizemin: 0,
@@ -199,14 +199,14 @@ function load_realtime_growth_chart() {
                 x: dates,
                 y: Object.values(data["Confirmed"]),
                 name: "Confirmed",
-                line: {color: "#8965E0", width: 4}
+                line: {color: "#132f65", width: 4}
             };
 
             var recovered_trace = {
                 x: dates,
                 y: Object.values(data["Recovered"]),
                 name: "Recovered",
-                line: {color: "#2DCE89", width: 4}
+                line: {color: "#8a8678", width: 4}
             };
 
             var deaths_trace = {
@@ -214,7 +214,7 @@ function load_realtime_growth_chart() {
                 y: Object.values(data["Deaths"]),
                 name: "Deaths",
                 line: {
-                    color: "#F9345E",
+                    color: "#fae839",
                     width: 4
                 }
             };
@@ -269,14 +269,14 @@ function load_realtime_growth_chart2() {
                 x: dates,
                 y: Object.values(data["Confirmed"]),
                 name: "Confirmed",
-                line: {color: "#8965E0", width: 4}
+                line: {color: "#132f65", width: 4}
             };
 
             var recovered_trace = {
                 x: dates,
                 y: Object.values(data["Recovered"]),
                 name: "Recovered",
-                line: {color: "#2DCE89", width: 4}
+                line: {color: "#8a8678", width: 4}
             };
 
             var deaths_trace = {
@@ -284,7 +284,7 @@ function load_realtime_growth_chart2() {
                 y: Object.values(data["Deaths"]),
                 name: "Deaths",
                 line: {
-                    color: "#F9345E",
+                    color: "#fae839",
                     width: 4
                 }
             };
@@ -344,14 +344,14 @@ function load_daily_growth_chart() {
                     name: "Confirmed",
                     type: "bar",
                     visible: "legendonly",
-                    marker: {color: "#6236FF", line: {color: "#fff", width: 1}}
+                    marker: {color: "#132f65", line: {color: "#fff", width: 1}}
                 },
                 {
                     x: dates,
                     y: deaths,
                     name: "Deaths",
                     type: "bar",
-                    marker: {color: "#F9345E", line: {color: "#FFF", width: 1}}
+                    marker: {color: "#fae839", line: {color: "#FFF", width: 1}}
                 }
             ];
 
