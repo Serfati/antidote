@@ -12,6 +12,10 @@ def index(request):
     return render(request, template_name='index.html', context={'usa_map': plot_div})
 
 
+def twitterpage(request): 
+    plot_div = maps.usa_map()
+    return render(request, template_name='pages/twitter.html', context={'usa_map': plot_div})
+
 def report(request):
     df = getdata.daily_report(date_string=None)
     df = df[['Confirmed', 'Deaths', 'Recovered']].sum()

@@ -351,7 +351,7 @@ function load_daily_growth_chart() {
                     y: deaths,
                     name: "Deaths",
                     type: "bar",
-                    marker: {color: "#fae839", line: {color: "#FFF", width: 1}}
+                    marker: {color: "#F9345E", line: {color: "#FFF", width: 1}}
                 }
             ];
 

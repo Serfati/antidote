@@ -15600,7 +15600,7 @@ a.btn-icon-only {
 }
 
 .navbar-vertical.navbar-expand-xs.fixed-right+.main-content {
-  margin-right: 250px;
+  margin-right: 200px;
 }
 
 @media (min-width: 576px) {
@@ -15609,7 +15609,7 @@ a.btn-icon-only {
   }
 
   .navbar-vertical.navbar-expand-sm.fixed-right+.main-content {
-    margin-right: 250px;
+    margin-right: 200px;
   }
 }
 
@@ -15619,7 +15619,7 @@ a.btn-icon-only {
   }
 
   .navbar-vertical.navbar-expand-md.fixed-right+.main-content {
-    margin-right: 250px;
+    margin-right: 200px;
   }
 }
 
@@ -15629,7 +15629,7 @@ a.btn-icon-only {
   }
 
   .navbar-vertical.navbar-expand-lg.fixed-right+.main-content {
-    margin-right: 250px;
+    margin-right: 200px;
   }
 }
 
@@ -15639,7 +15639,7 @@ a.btn-icon-only {
   }
 
   .navbar-vertical.navbar-expand-xl.fixed-right+.main-content {
-    margin-right: 250px;
+    margin-right: 200px;
   }
 }
 
