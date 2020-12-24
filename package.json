@@ -1,5 +1,5 @@
 {
-  "name": "covid19-dashboard",
+  "name": "antidote",
   "version": "1.0.1",
   "description": "A Django Corona Virus dashboard web-app",
   "scripts": {
@@ -14,16 +14,16 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/BrianRuizy/covid19-dashboard"
+    "url": "https://github.com/serfati/antidote"
   },
   "keywords": [
     "django",
     "admin-panel",
     "open-source"
   ],
-  "author": "Brian Ruiz",
+  "author": "Serfati",
   "contributors": [
-    "Brian Ruiz"
+    "Serfati"
   ],
   "license": "MIT"
 }
