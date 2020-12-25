@@ -24,7 +24,7 @@ from wordcloud import WordCloud, STOPWORDS, ImageColorGenerator
 
 from PIL import Image
 import nltk
-# nltk.download('stopwords')
+nltk.download('stopwords')
 from nltk.corpus import stopwords
 stop=set(stopwords.words('english'))
 from nltk.util import ngrams
