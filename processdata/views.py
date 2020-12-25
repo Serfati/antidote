@@ -8,13 +8,29 @@ from . import getdata, maps
 
 
 def index(request): 
-    plot_div = maps.usa_map()
-    return render(request, template_name='index.html', context={'usa_map': plot_div})
+    context = {
+        'ring' : maps.ring(),
+        'israel' : maps.israel(),
+    }
+    return render(request, template_name='index.html', context= context )
 
 
 def twitterpage(request): 
-    plot_div = maps.usa_map()
-    return render(request, template_name='pages/twitter.html', context={'usa_map': plot_div})
+    
+    context = {
+        'violin': maps.violin(), 
+        'hashtag' : maps.hashtag(),
+        'activity': maps.activity(), 
+        'sources' : maps.sources(),
+    }
+    return render(request, template_name='pages/twitter.html', context= context )
+
+
+def globalpage(request): 
+    context = {
+        'play' : maps.play(),
+    }
+    return render(request, template_name='pages/global.html', context= context )
 
 def report(request):
     df = getdata.daily_report(date_string=None)

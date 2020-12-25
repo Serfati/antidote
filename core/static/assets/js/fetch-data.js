@@ -4,7 +4,6 @@ window.addEventListener("load", function() {
     load_world_map();
     load_cases_table();
     load_realtime_growth_chart();
-    load_realtime_growth_chart2();
     load_daily_growth_chart();
 
 });
@@ -232,7 +231,7 @@ function load_realtime_growth_chart() {
                 hovermode: "closest",
                 updatemenus: [
                     {
-                        visible: false,
+                        visible: true,
                         type: "dropdown",
                         buttons: [
                             {method: "relayout", label: "Logarithmic", args: [{"yaxis.type": "log"}]},
@@ -249,76 +248,6 @@ function load_realtime_growth_chart() {
             var plot_config = {responsive: true, displayModeBar: false};
 
             Plotly.newPlot(document.getElementById("realtime_growth_chart"), plot_data, plot_layout, plot_config);
-        }
-    };
-
-    xhttp.open("GET", "realtime_growth");
-    xhttp.send();
-}
-
-function load_realtime_growth_chart2() {
-    var xhttp = new XMLHttpRequest();
-
-    xhttp.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
-            var data = JSON.parse(this.response);
-
-            var dates = Object.keys(data["Confirmed"]) 
-
-            var confirmed_trace = {
-                x: dates,
-                y: Object.values(data["Confirmed"]),
-                name: "Confirmed",
-                line: {color: "#132f65", width: 4}
-            };
-
-            var recovered_trace = {
-                x: dates,
-                y: Object.values(data["Recovered"]),
-                name: "Recovered",
-                line: {color: "#8a8678", width: 4}
-            };
-
-            var deaths_trace = {
-                x: dates,
-                y: Object.values(data["Deaths"]),
-                name: "Deaths",
-                line: {
-                    color: "#fae839",
-                    width: 4
-                }
-            };
-
-            var plot_data = [confirmed_trace, recovered_trace, deaths_trace];
-
-            var plot_layout = {
-                paper_bgcolor:'rgba(0,0,0,0)',
-                plot_bgcolor:'rgba(0,0,0,0)',
-                yaxis: {automargin: true, type: "linear", gridcolor: "#32325d"},
-                xaxis: {automargin: true, showgrid: false},
-                showlegend: false,
-                font: {color: '#ced4da'},
-                margin: {t:0, l:0, r:0, b:0},
-                hovermode: "closest",
-                updatemenus: [
-                    {
-                        visible: false,
-                        type: "dropdown",
-                        buttons: [
-                            {method: "relayout", label: "Logarithmic", args: [{"yaxis.type": "log"}]},
-                            {method: "relayout", label: "Linear", args: [{"yaxis.type": "linear"}]}
-                        ],
-                        x: 0.05,
-                        xanchor: "auto",
-                        bgcolor: "#6236FF",
-                        bordercolor: "rgba(0,0,0,0)"
-                    }
-                ]
-            };
-
-            var plot_config = {responsive: true, displayModeBar: false};
-
-            Plotly.newPlot(document.getElementById("realtime_growth_chart2"), plot_data, plot_layout, plot_config);
         }
     };
 
