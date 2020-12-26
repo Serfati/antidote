@@ -14,31 +14,14 @@ import plotly.express as px
 from plotly.offline import plot
 import plotly.graph_objs as go
 
-from plotly.subplots import make_subplots
-
 import plotly.figure_factory as ff
 from plotly.colors import n_colors
 from plotly.subplots import make_subplots
 
-from wordcloud import WordCloud, STOPWORDS, ImageColorGenerator
-
 from PIL import Image
-import nltk
-nltk.download('stopwords')
-from nltk.corpus import stopwords
-stop=set(stopwords.words('english'))
-from nltk.util import ngrams
-
-
-from sklearn import preprocessing
-from sklearn import model_selection
-from sklearn.feature_extraction.text import CountVectorizer,TfidfVectorizer
-from sklearn.model_selection import train_test_split
 
 import re
 from collections import Counter
-import nltk
-from nltk.corpus import stopwords
 from . import getdata
 import requests
 import json
@@ -180,12 +163,21 @@ def play():
                         locations=data_per_country['Country/Region'],
                         locationmode='country names',
                         color=data_per_country['Confirmed'],
-                        color_continuous_scale=px.colors.sequential.deep,
+                        color_continuous_scale="Viridis",
                         hover_name=data_per_country['Country/Region'],
-                        animation_frame="ObservationDate")
+                        animation_frame="ObservationDate"
+                        
+                        )
     
-    fig.update_layout( margin = dict(t=100, l=0, r=0, b=0),          
-                paper_bgcolor='rgba(0,0,0,0)',
+    fig.update_layout(
+        title_text='Confirmed Cases Over Time',
+        geo=dict(
+            showframe=False,
+            showcoastlines=False,
+            projection_type='equirectangular'
+        ), 
+        paper_bgcolor='rgba(0,0,0,0)',
+                      margin={"r":0,"t":0,"l":0,"b":0},
                 template="plotly_dark",
     )
     plot_div = plot(fig, include_plotlyjs=False, output_type='div', config={'displayModeBar': False})
@@ -195,13 +187,17 @@ def play():
 # DONE
 # 1e - ring graph NOTE: not about tweets
 def ring():
+    colors = ['#132f65', '#8a8678', '#fae839']
     # Missing: Data_world
     labels = ["Active cases", "Recovered", "Deaths"]
     values = Data_world.loc[0, ["Active_case", "Recovered", "Deaths"]]
     
-    fig = go.Figure(data=[go.Pie(labels=labels, values=values)])
+    fig = go.Figure(data=[go.Pie(labels=labels, values=values, pull=[0, 0, 0.2], hole=0.5)])
     
-    fig.update_layout(template="plotly_dark")
+    fig.update_traces(hoverinfo='label+percent', textinfo='value',
+                  marker=dict(colors=colors, line=dict(color='#000000', width=0.5)))
+    
+    fig.update_layout( paper_bgcolor='rgba(0,0,0,0)', )
     plot_div = plot(fig, include_plotlyjs=False, output_type='div', config={'displayModeBar': False})
     if show_mode:
         fig.show()
@@ -244,18 +240,6 @@ def hashtag():
         fig.show()
     return plot_div
 
-
-# 3e - wordcloud
-def wordcloud():
-    # Missing: covid
-    fig, (ax2) = plt.subplots(1, 1, figsize=[17, 10])
-    wordcloud2 = WordCloud(background_color='black', colormap="Blues",
-                           width=600, height=400).generate(" ".join(covid['refine_text']))
-
-    ax2.imshow(wordcloud2, interpolation='bilinear')
-    ax2.axis('off')
-    ax2.set_title('Most Used Words in Comments', fontsize=35)
-    return fig
 
 
 # 4e - device usage
@@ -342,6 +326,8 @@ def israel():
     deaths = israel_data.values[0]
     confirmed = israel_data.values[1]
     recovered = israel_data.values[2]
+    # israel_data.columns = pd.to_datetime(israel_data.index)
+    # israel_data.columns = israel_data.index.strftime('%Y-%m-%d')
     dates = israel_data.columns
     
     deaths_scatter = go.Scatter(name='Deaths', x=dates, y=deaths, line=dict(color="#fae839", width=4))
@@ -350,7 +336,7 @@ def israel():
     
     fig = go.Figure(data=[deaths_scatter, confirmed_scatter, recovered_scatter])
     
-    fig.update_layout( margin = dict(t=0, l=0, r=0, b=5), showlegend= False,                
+    fig.update_layout(showlegend= False, margin = dict(t=0, l=0, r=0, b=200) ,         
                 paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)', 
                 hovermode="closest",
                 yaxis= dict(automargin= True, gridcolor= "#32325d"),

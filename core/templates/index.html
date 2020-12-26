@@ -30,13 +30,13 @@
 
 
       <div class="row mt-5">
-        <div class="col-xl-3">  <!-- Growth interactive scatterplot -->
+        <div class="col-xl-4">  <!-- Growth interactive scatterplot -->
           <div class="card bg-dark shadow fade-in-bottom">
             <div class="card-header bg-transparent">
               <div class="row align-items-center">
                 <div class="col">
                   <h6 class="text-uppercase text-light ls-1 mb-1">Israel | Cumulative</h6>
-                  <h2 class="text-white mb-0">Israel</h2>
+                  <h2 class="text-white mb-0">Real Time Growth</h2>
                 </div>
                 <div class="col text-right">
                   <a class="btn btn-sm btn-light" tabindex="0" role="button" data-toggle="popover" data-trigger="focus" title="Info"
@@ -48,7 +48,7 @@
             </div>
             <div class="card-body plotly">
               <script src="https://cdnjs.cloudflare.com/ajax/libs/plotly.js/1.54.6/plotly.min.js"></script>
-              <div class="chart" style="height: 310px;">
+              <div class="chart"  style="height: 100px;">
                 {% autoescape off %}
                   {{ israel }}
                 {% endautoescape %}
@@ -63,7 +63,7 @@
               <div class="row align-items-center">
                 <div class="col">
                   <h6 class="text-uppercase text-light ls-1 mb-1">Global | Cumulative</h6>
-                  <h2 class="text-white mb-0">Logarithmic Growth</h2>
+                  <h2 class="text-white mb-0">Real Time Growth</h2>
                 </div>
                 <div class="col text-right">
                   <a class="btn btn-sm btn-light" tabindex="0" role="button" data-toggle="popover" data-trigger="focus" title="Info"
@@ -78,13 +78,14 @@
             </div>
           </div>
         </div>
-        <div class="col-xl-5">
+
+        <div class="col-xl-4">
           <div class="card shadow bg-dark">
             <div class="card-header bg-transparent">
               <div class="row align-items-center">
                 <div class="col">
                   <h6 class="text-uppercase text-light ls-1 mb-1">Global | Sortable</h6>
-                  <h2 class="text-white mb-0">Cases By Country WorldWide</h2>
+                  <h2 class="text-white mb-0">Cases WorldWide</h2>
                 </div>
                 <div class="col text-right">
                   <a href="#!" class="btn btn-sm btn-white">
@@ -140,7 +141,7 @@
         </div>
 
         <div class="col-xl-6 mb-5 mb-xl-0">  <!-- World Geolocation interactive Plotly -->
-          <div class="card shadow fade-in-bottom">
+          <div class="card shadow bg-light fade-in-bottom">
             <div class="card-body plotly worldmap">
               <script src="https://cdnjs.cloudflare.com/ajax/libs/plotly.js/1.54.6/plotly.min.js"></script>
               <div class="chart">
@@ -151,7 +152,7 @@
             </div>
             <div style="position: absolute; padding:1.25rem 1.5rem;">
                 <h6 class="text-uppercase text-muted ls-1 mb-1">Global | Total</h6>
-                <h2 class="text-dark mb-0">Global Confirmed Cases</h2>
+                <h2 class="text-dark mb-0">Percenteges</h2>
             </div>
           </div>
         </div>
