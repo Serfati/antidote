@@ -16,11 +16,10 @@ with_country_name = covid[covid['country_name'].isin(list(country_code['COUNTRY'
 with_country_name['filtered_name'] = covid['country_name']
 covid['tweet_date'] = pd.to_datetime(covid['date']).dt.date
 
-data = pd.read_csv('processdata/data/covid_19_data.csv')
-data["Province/State"] = data["Province/State"].fillna('Unknown')
-data[["Confirmed", "Deaths", "Recovered"]] = data[["Confirmed", "Deaths", "Recovered"]].astype(int)
-data['Country/Region'] = data['Country/Region'].replace('Mainland China', 'China')
-data['Active_case'] = data['Confirmed'] - data['Deaths'] - data['Recovered']
+df = pd.read_csv('processdata/data/covid_19_data.csv')
+df["Province/State"] = df["Province/State"].fillna('Unknown')
+df[["Confirmed", "Deaths", "Recovered"]] = df[["Confirmed", "Deaths", "Recovered"]].astype(int)
+df['Country/Region'] = df['Country/Region'].replace('Mainland China', 'China')
 
 
 def remove_tag(string):
@@ -78,8 +77,8 @@ def find_hash(text):
 # 2 - something cool about corona
 # plays a heat map of confirmed cases for all countries over time
 def play():
-    data_per_country = data.groupby(["Country/Region", "ObservationDate"])[
-        ["Confirmed"]].sum().reset_index() \
+    global df
+    data_per_country = df.groupby(["Country/Region", "ObservationDate"])[["Confirmed"]].sum().reset_index()\
         .sort_values("ObservationDate", ascending=True).reset_index(drop=True)
     fig = px.choropleth(data_per_country,
                         locations=data_per_country['Country/Region'],
@@ -93,22 +92,21 @@ def play():
     fig.update_layout(
         paper_bgcolor='rgba(0,0,0,0)',
         margin={"r": 0, "t": 0, "l": 0, "b": 0},
-        template="plotly_dark",
     )
     plot_div = plot(fig, include_plotlyjs=False, output_type='div', config={'displayModeBar': False})
     return plot_div
 
 
 def marker():
-    global data
-    mark = data[data['ObservationDate'] == max(data['ObservationDate'])].reset_index()
+    global df
+    mark = df[df['ObservationDate'] == max(df['ObservationDate'])].reset_index()
     markers = mark.groupby(["Country/Region"])["Confirmed"].sum().reset_index().sort_values("Confirmed", ascending=False).reset_index(drop=True)
     fig = go.Figure(data=[go.Scatter(
         x=markers['Country/Region'][0:10],
         y=markers['Confirmed'][0:10],
         mode='markers',
         marker=dict(
-            color=100 + np.random.randn(500),
+            color=[145, 140, 135, 130, 125, 120, 115, 110, 105, 100],
             size=(markers['Confirmed'][0:10] / 25000),
             showscale=True
         )
@@ -126,8 +124,8 @@ def marker():
 
 
 def death_ratio():
-    global data
-    mark = data[data['ObservationDate'] == max(data['ObservationDate'])].reset_index()
+    global df
+    mark = df[df['ObservationDate'] == max(df['ObservationDate'])].reset_index()
     markers = mark.groupby(["Country/Region"])["Deaths"].sum().reset_index().sort_values("Deaths", ascending=False).reset_index(drop=True)
     fig = go.Figure(data=[go.Scatter(
         x=markers['Country/Region'][0:10],
@@ -152,8 +150,8 @@ def death_ratio():
 
 
 def ring():
-    global data
-    mark = data[data['ObservationDate'] == max(data['ObservationDate'])].reset_index()
+    global df
+    mark = df[df['ObservationDate'] == max(df['ObservationDate'])].reset_index()
     data_world = mark.groupby(["ObservationDate"])[
         ["Confirmed", "Active_case", "Recovered", "Deaths"]].sum().reset_index()
     colors = ['#132f65', '#8a8678', '#fae839']
@@ -220,7 +218,7 @@ def hashtag():
 
 # 4e - device usage
 def sources():
-
+    global covid
     devices = covid['source'].value_counts().to_frame().reset_index().rename(
         columns={'index': 'source', 'source': 'count'})[:15]
     fig = go.Figure(go.Bar(

@@ -28,7 +28,7 @@ def globalpage(request):
     context = {
         'play': maps.play(),
         'marker': maps.marker(),
-        # 'death_ratio': maps.death_ratio()
+        'death_ratio': maps.death_ratio()
     }
     return render(request, template_name='pages/global.html', context=context)
 
