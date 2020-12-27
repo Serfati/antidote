@@ -10,7 +10,7 @@
   <h2>Global</h2>
   <p>World Map level graphs about covid-19. More coming soon!</p>
   <div class="row">
-    <div class="col-xl-5 mb-5 mb-xl-0">  <!-- Global interactive Plotly Mabpox -->
+      <div class="col-xl-12 mb-5 mb-xl-0">  <!-- Global interactive Plotly Mabpox -->
       <div class="card bg-dark shadow fade-in-bottom">
         <div class="card-body bg-dark plotly worldmap mt-5">
           <script src="https://cdnjs.cloudflare.com/ajax/libs/plotly.js/1.54.6/plotly.min.js"></script>
@@ -21,7 +21,40 @@
           </div>
         </div>
         <div class="mb-5" style="position: absolute; padding:1.25rem 1.5rem;">
+            <h6 class="text-uppercase text-muted ls-1 mb-1">Most 10 infected Countries</h6>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mt-5">
+    <div class="col-xl-6 mb-5 mb-xl-0">  <!-- Global interactive Plotly Mabpox -->
+      <div class="card bg-dark shadow fade-in-bottom">
+        <div class="card-body bg-dark plotly worldmap mt-5">
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/plotly.js/1.54.6/plotly.min.js"></script>
+          <div class="chart">
+            {% autoescape off %}
+            {{ marker }}
+            {% endautoescape %}
+          </div>
+        </div>
+        <div class="mb-5" style="position: absolute; padding:1.25rem 1.5rem;">
             <h6 class="text-uppercase text-muted ls-1 mb-1">Global cases over time</h6>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-6 mb-5 mb-xl-0">  <!-- Global interactive Plotly Mabpox -->
+      <div class="card bg-dark shadow fade-in-bottom">
+        <div class="card-body bg-dark plotly worldmap mt-5">
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/plotly.js/1.54.6/plotly.min.js"></script>
+          <div class="chart">
+            {% autoescape off %}
+{#            {{ death_ratio }}#}
+            {% endautoescape %}
+          </div>
+        </div>
+        <div class="mb-5" style="position: absolute; padding:1.25rem 1.5rem;">
+            <h6 class="text-uppercase text-muted ls-1 mb-1">Most 10 deadliest Countries</h6>
         </div>
       </div>
     </div>

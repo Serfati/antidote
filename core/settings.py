@@ -1,5 +1,6 @@
 import os
 from decouple import config
+from django.contrib import staticfiles
 from unipath import Path
 # import django_heroku
 

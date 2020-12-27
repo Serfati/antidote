@@ -1,41 +1,42 @@
-from django.http import HttpResponse
-from django.shortcuts import get_object_or_404, redirect, render
-from django.template import loader
-
 import json
+
+from django.http import HttpResponse
+from django.shortcuts import render
 
 from . import getdata, maps
 
 
-def index(request): 
+def index(request):
     context = {
-        'ring' : maps.ring(),
-        'israel' : maps.israel(),
+        'ring': maps.ring(),
+        'israel': maps.israel(),
     }
-    return render(request, template_name='index.html', context= context )
+    return render(request, template_name='index.html', context=context)
 
 
-def twitterpage(request): 
-    
+def twitterpage(request):
     context = {
-        'violin': maps.violin(), 
-        'hashtag' : maps.hashtag(),
-        'activity': maps.activity(), 
-        'sources' : maps.sources(),
+        'violin': maps.violin(),
+        'hashtag': maps.hashtag(),
+        'activity': maps.activity(),
+        'sources': maps.sources(),
     }
-    return render(request, template_name='pages/twitter.html', context= context )
+    return render(request, template_name='pages/twitter.html', context=context)
 
 
-def globalpage(request): 
+def globalpage(request):
     context = {
-        'play' : maps.play(),
+        'play': maps.play(),
+        'marker': maps.marker(),
+        # 'death_ratio': maps.death_ratio()
     }
-    return render(request, template_name='pages/global.html', context= context )
+    return render(request, template_name='pages/global.html', context=context)
+
 
 def report(request):
     df = getdata.daily_report(date_string=None)
     df = df[['Confirmed', 'Deaths', 'Recovered']].sum()
-    death_rate = f'{(df.Deaths / df.Confirmed)*100:.02f}%'
+    death_rate = f'{(df.Deaths / df.Confirmed) * 100:.02f}%'
 
     data = {
         'num_confirmed': int(df.Confirmed),
@@ -69,14 +70,9 @@ def global_cases(request):
     return HttpResponse(df.to_json(orient='records'), content_type='application/json')
 
 
-def world_map():
-    plot_div = maps.world_map()
-    return {'world_map': plot_div}
-
-
 def realtime_growth(request):
     import pandas as pd
-    df = getdata.realtime_growth();
+    df = getdata.realtime_growth()
 
     df.index = pd.to_datetime(df.index)
     df.index = df.index.strftime('%Y-%m-%d')
@@ -92,11 +88,12 @@ def daily_growth(request):
     df_deaths = df_deaths.set_index('date')
 
     json_string = '{' + \
-        '"confirmed": ' + df_confirmed.to_json(orient='columns') + ',' + \
-        '"deaths": ' + df_deaths.to_json(orient='columns') + \
-    '}'
+                  '"confirmed": ' + df_confirmed.to_json(orient='columns') + ',' + \
+                  '"deaths": ' + df_deaths.to_json(orient='columns') + \
+                  '}'
 
     return HttpResponse(json_string, content_type='application/json')
+
 
 def daily_growth2(request):
     df_confirmed = getdata.daily_confirmed()[['date', 'World']]
@@ -106,19 +103,17 @@ def daily_growth2(request):
     df_deaths = df_deaths.set_index('date')
 
     json_string = '{' + \
-        '"confirmed": ' + df_confirmed.to_json(orient='columns') + ',' + \
-        '"deaths": ' + df_deaths.to_json(orient='columns') + \
-    '}'
+                  '"confirmed": ' + df_confirmed.to_json(orient='columns') + ',' + \
+                  '"deaths": ' + df_deaths.to_json(orient='columns') + \
+                  '}'
 
     return HttpResponse(json_string, content_type='application/json')
-
 
 
 def daily_report(request):
     df = getdata.daily_report()
 
-    df.drop(['FIPS', 'Admin2', 'Province_State', 'Country_Region', 'Last_Update', 'Deaths', 'Recovered', 'Active', 'Incident_Rate', 'Case_Fatality_Ratio'], axis=1, inplace=True)
+    df.drop(['FIPS', 'Admin2', 'Province_State', 'Country_Region', 'Last_Update', 'Deaths', 'Recovered', 'Active',
+             'Incident_Rate', 'Case_Fatality_Ratio'], axis=1, inplace=True)
 
     return HttpResponse(df.to_json(orient='columns'), content_type='application/json')
-
-
