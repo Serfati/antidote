@@ -1,10 +1,10 @@
-import numpy as np
-import pandas as pd
-import plotly.express as px
-from plotly.offline import plot
-import plotly.graph_objs as go
 import re
 from collections import Counter
+
+import pandas as pd
+import plotly.express as px
+import plotly.graph_objs as go
+from plotly.offline import plot
 
 show_mode = False
 
@@ -20,6 +20,7 @@ df = pd.read_csv('processdata/data/covid_19_data.csv')
 df["Province/State"] = df["Province/State"].fillna('Unknown')
 df[["Confirmed", "Deaths", "Recovered"]] = df[["Confirmed", "Deaths", "Recovered"]].astype(int)
 df['Country/Region'] = df['Country/Region'].replace('Mainland China', 'China')
+df['Active_case'] = df['Confirmed'] - df['Deaths'] - df['Recovered']
 
 
 def remove_tag(string):
@@ -78,7 +79,7 @@ def find_hash(text):
 # plays a heat map of confirmed cases for all countries over time
 def play():
     global df
-    data_per_country = df.groupby(["Country/Region", "ObservationDate"])[["Confirmed"]].sum().reset_index()\
+    data_per_country = df.groupby(["Country/Region", "ObservationDate"])[["Confirmed"]].sum().reset_index() \
         .sort_values("ObservationDate", ascending=True).reset_index(drop=True)
     fig = px.choropleth(data_per_country,
                         locations=data_per_country['Country/Region'],
@@ -98,16 +99,19 @@ def play():
 
 
 def marker():
+    from numpy.random import randn
     global df
     mark = df[df['ObservationDate'] == max(df['ObservationDate'])].reset_index()
-    markers = mark.groupby(["Country/Region"])["Confirmed"].sum().reset_index().sort_values("Confirmed", ascending=False).reset_index(drop=True)
+    markers = mark.groupby(["Country/Region"])["Confirmed"].sum().reset_index().sort_values("Confirmed",
+                                                                                            ascending=False).reset_index(
+        drop=True)
     fig = go.Figure(data=[go.Scatter(
-        x=markers['Country/Region'][0:10],
-        y=markers['Confirmed'][0:10],
+        x=markers['Country/Region'][0:12],
+        y=markers['Confirmed'][0:12],
         mode='markers',
         marker=dict(
-            color=[145, 140, 135, 130, 125, 120, 115, 110, 105, 100],
-            size=(markers['Confirmed'][0:10] / 25000),
+            color=100+randn(500),
+            size=(markers['Confirmed'][0:12] / 25000),
             showscale=True
         )
     )])
@@ -126,14 +130,16 @@ def marker():
 def death_ratio():
     global df
     mark = df[df['ObservationDate'] == max(df['ObservationDate'])].reset_index()
-    markers = mark.groupby(["Country/Region"])["Deaths"].sum().reset_index().sort_values("Deaths", ascending=False).reset_index(drop=True)
+    markers = mark.groupby(["Country/Region"])["Deaths"].sum().reset_index().sort_values("Deaths",
+                                                                                         ascending=False).reset_index(
+        drop=True)
     fig = go.Figure(data=[go.Scatter(
-        x=markers['Country/Region'][0:10],
-        y=markers['Deaths'][0:10],
+        x=markers['Country/Region'][0:12],
+        y=markers['Deaths'][0:12],
         mode='markers',
         marker=dict(
             color=[145, 140, 135, 130, 125, 120, 115, 110, 105, 100],
-            size=markers['Deaths'][0:10] / 1000,
+            size=markers['Deaths'][0:12] / 1000,
             showscale=True
         )
     )])

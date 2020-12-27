@@ -4,92 +4,92 @@
 
 
 
-{% block content %}  
+{% block content %}
 
-<div class="container-fluid pt-6">
-  <h2>Twitter</h2>
-  <p>Tweets about covid-19.</p>
-  <div class="row">
-    <div class="col-xl-6 mb-5 mb-xl-0">  <!-- Global interactive Plotly Mabpox -->
-      <div class="card shadow fade-in-bottom">
-        <div class="card-body plotly worldmap">
-          <script src="https://cdnjs.cloudflare.com/ajax/libs/plotly.js/1.54.6/plotly.min.js"></script>
-          <div class="chart">
-            {% autoescape off %}
-            {{ violin }}
-            {% endautoescape %}
-          </div>
+    <div class="container-fluid pt-6">
+        <h2>Twitter</h2>
+        <p>Tweets about covid-19.</p>
+        <div class="row">
+            <div class="col-xl-6 mb-5 mb-xl-0">  <!-- Global interactive Plotly Mabpox -->
+                <div class="card shadow fade-in-bottom">
+                    <div class="card-body plotly worldmap">
+                        <script src="https://cdnjs.cloudflare.com/ajax/libs/plotly.js/1.54.6/plotly.min.js"></script>
+                        <div class="chart">
+                            {% autoescape off %}
+                                {{ violin }}
+                            {% endautoescape %}
+                        </div>
+                    </div>
+                    <div style="position: absolute; padding:1.25rem 1.5rem;">
+                        <h6 class="text-uppercase text-muted ls-1 mb-1">Distribution</h6>
+                        <h2 class="text-light mb-0">Violin of Tweet Length</h2>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-6 mb-5 mb-xl-0">  <!-- Global interactive Plotly Mabpox -->
+                <div class="card shadow fade-in-bottom">
+                    <div class="card-body plotly worldmap">
+                        <script src="https://cdnjs.cloudflare.com/ajax/libs/plotly.js/1.54.6/plotly.min.js"></script>
+                        <div class="chart">
+                            {% autoescape off %}
+                                {{ hashtag }}
+                            {% endautoescape %}
+                        </div>
+                    </div>
+                    <div style="position: absolute; padding:1.25rem 1.5rem;">
+                        <h6 class="text-uppercase text-muted ls-1 mb-1">Top Trended</h6>
+                        <h2 class="text-light mb-0">Hastags During The Pandemic</h2>
+                    </div>
+                </div>
+            </div>
+
         </div>
-        <div style="position: absolute; padding:1.25rem 1.5rem;">
-            <h6 class="text-uppercase text-muted ls-1 mb-1">Distribution</h6>
-            <h2 class="text-light mb-0">Violin of Tweet Length</h2>
+
+        <div class="row mt-5">
+            <div class="col-xl-6 mb-5 mb-xl-0">  <!-- Global interactive Plotly Mabpox -->
+                <div class="card shadow fade-in-bottom">
+                    <div class="card-body plotly worldmap">
+                        <script src="https://cdnjs.cloudflare.com/ajax/libs/plotly.js/1.54.6/plotly.min.js"></script>
+                        <div class="chart">
+                            {% autoescape off %}
+                                {{ activity }}
+                            {% endautoescape %}
+                        </div>
+                    </div>
+                    <div style="position: absolute; padding:1.25rem 1.5rem;">
+                        <h6 class="text-uppercase text-muted ls-1 mb-1">Global Activity</h6>
+                        <h2 class="text-light mb-0">Tweets per Day</h2>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-6 mb-5 mb-xl-0">  <!-- Global interactive Plotly Mabpox -->
+                <div class="card shadow fade-in-bottom">
+                    <div class="card-body plotly worldmap">
+                        <script src="https://cdnjs.cloudflare.com/ajax/libs/plotly.js/1.54.6/plotly.min.js"></script>
+                        <div class="chart">
+                            {% autoescape off %}
+                                {{ sources }}
+                            {% endautoescape %}
+                        </div>
+                    </div>
+                    <div style="position: absolute; padding:1.25rem 1.5rem;">
+                        <h6 class="text-uppercase text-muted ls-1 mb-1">Top Devices</h6>
+                        <h2 class="text-light mb-0">Source for Tweeting</h2>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
+        {% include "includes/footer.html" %}
     </div>
-
-    <div class="col-xl-6 mb-5 mb-xl-0">  <!-- Global interactive Plotly Mabpox -->
-      <div class="card shadow fade-in-bottom">
-        <div class="card-body plotly worldmap">
-          <script src="https://cdnjs.cloudflare.com/ajax/libs/plotly.js/1.54.6/plotly.min.js"></script>
-          <div class="chart">
-            {% autoescape off %}
-            {{ hashtag }}
-            {% endautoescape %}
-          </div>
-        </div>
-        <div style="position: absolute; padding:1.25rem 1.5rem;">
-            <h6 class="text-uppercase text-muted ls-1 mb-1">Top Trended</h6>
-            <h2 class="text-light mb-0">Hastags During The Pandemic</h2>
-        </div>
-      </div>
-    </div>
-
-  </div>
-
-  <div class="row mt-5">
-    <div class="col-xl-6 mb-5 mb-xl-0">  <!-- Global interactive Plotly Mabpox -->
-      <div class="card shadow fade-in-bottom">
-        <div class="card-body plotly worldmap">
-          <script src="https://cdnjs.cloudflare.com/ajax/libs/plotly.js/1.54.6/plotly.min.js"></script>
-          <div class="chart">
-            {% autoescape off %}
-            {{ activity }}
-            {% endautoescape %}
-          </div>
-        </div>
-        <div style="position: absolute; padding:1.25rem 1.5rem;">
-            <h6 class="text-uppercase text-muted ls-1 mb-1">Global Activity</h6>
-            <h2 class="text-light mb-0">Tweets per Day</h2>
-        </div>
-      </div>
-    </div>
-
-    <div class="col-xl-6 mb-5 mb-xl-0">  <!-- Global interactive Plotly Mabpox -->
-      <div class="card shadow fade-in-bottom">
-        <div class="card-body plotly worldmap">
-          <script src="https://cdnjs.cloudflare.com/ajax/libs/plotly.js/1.54.6/plotly.min.js"></script>
-          <div class="chart">
-            {% autoescape off %}
-            {{ sources }}
-            {% endautoescape %}
-          </div>
-        </div>
-        <div style="position: absolute; padding:1.25rem 1.5rem;">
-            <h6 class="text-uppercase text-muted ls-1 mb-1">Top Devices</h6>
-            <h2 class="text-light mb-0">Source for Tweeting</h2>
-        </div>
-      </div>
-    </div>
-  </div>
-  {% include "includes/footer.html" %}
-</div>
 
 {% endblock content %}
 
-<!-- Specific JS goes HERE --> 
+<!-- Specific JS goes HERE -->
 {% block javascripts %}
-<script>
-$('.nav-item a').removeClass('active');
-$('.maps-item a').addClass('active');
-</script>
+    <script>
+        $('.nav-item a').removeClass('active');
+        $('.maps-item a').addClass('active');
+    </script>
 {% endblock javascripts %}

@@ -2,6 +2,7 @@
 
 
 from django.test import TestCase
+
 from app.templatetags import trend
 
 

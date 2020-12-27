@@ -42,6 +42,3 @@ def color(name, value):
         return CONDITIONS[name]["GT_0"][0]
     else:
         return CONDITIONS[name]["LT_0"][0]
-
-
-

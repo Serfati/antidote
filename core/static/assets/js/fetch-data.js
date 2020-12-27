@@ -1,4 +1,4 @@
-window.addEventListener("load", function() {
+window.addEventListener("load", function () {
     load_report();
     load_trends();
     load_world_map();
@@ -12,7 +12,7 @@ window.addEventListener("load", function() {
 function load_report() {
     var xhttp = new XMLHttpRequest();
 
-    xhttp.onreadystatechange = function() {
+    xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             var data = JSON.parse(this.response);
 
@@ -30,20 +30,19 @@ function load_report() {
 function load_trends() {
     var xhttp = new XMLHttpRequest();
 
-    xhttp.onreadystatechange = function() {
+    xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             var data = JSON.parse(this.response);
 
             trend_confirmed_label = document.getElementById("trend_confirmed_label");
-            trend_recovered_label =  document.getElementById("trend_recovered_label");
+            trend_recovered_label = document.getElementById("trend_recovered_label");
             trend_deaths_label = document.getElementById("trend_deaths_label");
             trend_death_rate_label = document.getElementById("trend_death_rate_label");
 
             if (data.confirmed_trend > 0) {
                 trend_confirmed_label.innerHTML = "<i class='fa fa-angle-up'></i>";
                 trend_confirmed_label.classList.add("text-danger");
-            }
-            else {
+            } else {
                 trend_confirmed_label.innerHTML = "<i class='fa fa-angle-down'></i>";
                 trend_confirmed_label.classList.add("text-success");
             }
@@ -51,17 +50,15 @@ function load_trends() {
             if (data.recovered_trend > 0) {
                 trend_recovered_label.innerHTML = "<i class='fa fa-angle-up'></i>";
                 trend_recovered_label.classList.add("text-success");
-            }
-            else {
+            } else {
                 trend_recovered_label.innerHTML = "<i class='fa fa-angle-down'></i>",
-                trend_recovered_label.classList.add("text-danger");
+                    trend_recovered_label.classList.add("text-danger");
             }
 
             if (data.deaths_trend > 0) {
                 trend_deaths_label.innerHTML = "<i class='fa fa-angle-up'></i>";
                 trend_deaths_label.classList.add("text-danger");
-            }
-            else {
+            } else {
                 trend_deaths_label.innerHTML = "<i class='fa fa-angle-down'></i>";
                 trend_deaths_label.classList.add("text-success");
             }
@@ -69,8 +66,7 @@ function load_trends() {
             if (data.death_rate_trend > 0) {
                 trend_death_rate_label.innerHTML = "<i class='fa fa-angle-up'></i>";
                 trend_death_rate_label.classList.add("text-danger");
-            }
-            else {
+            } else {
                 trend_death_rate_label.innerHTML = "<i class='fa fa-angle-down'></i>";
                 trend_death_rate_label.classList.add("text-success");
             }
@@ -89,16 +85,16 @@ function load_trends() {
 function load_world_map() {
     var xhttp = new XMLHttpRequest();
 
-    xhttp.onreadystatechange = function() {
+    xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             var data = JSON.parse(this.response);
-            hoverinfo = function() {
+            hoverinfo = function () {
                 result = [];
 
                 for (let index = 0; index < Object.values(data["Combined_Key"]).length; index++) {
                     result.push(
                         "<b>" + Object.values(data["Combined_Key"])[index] + "</b><br>" +
-                        "Confirmed: " + Object.values(data["Confirmed"])[index] + "<br>" + 
+                        "Confirmed: " + Object.values(data["Confirmed"])[index] + "<br>" +
                         "Lat: " + Object.values(data["Lat"])[index] + "<br>" +
                         "Long: " + Object.values(data["Long_"])[index]
                     );
@@ -131,8 +127,8 @@ function load_world_map() {
             }];
 
             var plot_layout = {
-                margin: {t:0, l:0, r:0, b:0},
-                paper_bgcolor:'rgba(0,0,0,0)',
+                margin: {t: 0, l: 0, r: 0, b: 0},
+                paper_bgcolor: 'rgba(0,0,0,0)',
                 mapbox: {
                     style: "carto-positron",
                     center: {lat: 20, lon: -20},
@@ -153,7 +149,7 @@ function load_world_map() {
 function load_cases_table() {
     var xhttp = new XMLHttpRequest();
 
-    xhttp.onreadystatechange = function() {
+    xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             var data = JSON.parse(this.response);
             var cases_table = document.getElementById("cases_table");
@@ -188,11 +184,11 @@ function load_cases_table() {
 function load_realtime_growth_chart() {
     var xhttp = new XMLHttpRequest();
 
-    xhttp.onreadystatechange = function() {
+    xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             var data = JSON.parse(this.response);
 
-            var dates = Object.keys(data["Confirmed"]) 
+            var dates = Object.keys(data["Confirmed"])
 
             var confirmed_trace = {
                 x: dates,
@@ -221,13 +217,13 @@ function load_realtime_growth_chart() {
             var plot_data = [confirmed_trace, recovered_trace, deaths_trace];
 
             var plot_layout = {
-                paper_bgcolor:'rgba(0,0,0,0)',
-                plot_bgcolor:'rgba(0,0,0,0)',
+                paper_bgcolor: 'rgba(0,0,0,0)',
+                plot_bgcolor: 'rgba(0,0,0,0)',
                 yaxis: {automargin: true, type: "log", gridcolor: "#32325d"},
                 xaxis: {automargin: true, showgrid: false},
                 showlegend: false,
                 font: {color: '#ced4da'},
-                margin: {t:0, l:0, r:0, b:0},
+                margin: {t: 0, l: 0, r: 0, b: 0},
                 hovermode: "closest",
                 updatemenus: [
                     {
@@ -258,7 +254,7 @@ function load_realtime_growth_chart() {
 function load_daily_growth_chart() {
     var xhttp = new XMLHttpRequest();
 
-    xhttp.onreadystatechange = function() {
+    xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             var data = JSON.parse(this.response);
 
@@ -295,9 +291,9 @@ function load_daily_growth_chart() {
 
             var plot_layout = {
                 barmode: "stack",
-                paper_bgcolor:'rgba(0,0,0,0)',
-                plot_bgcolor:'rgba(0,0,0,0)',
-                margin: {t:0, l:0, r:0, b:0},
+                paper_bgcolor: 'rgba(0,0,0,0)',
+                plot_bgcolor: 'rgba(0,0,0,0)',
+                margin: {t: 0, l: 0, r: 0, b: 0},
                 hovermode: "closest",
                 bargap: 0,
                 yaxis: {automargin: true, showgrid: true, zerolinecolor: "#FFFFFF", gridcolor: "#e9ecef"},
@@ -320,11 +316,11 @@ function addCommas(input) {
     var result = "";
 
     for (let i = 0; i < number_string.length; i++) {
-        result = number_string[number_string.length -1 - i] + result;
+        result = number_string[number_string.length - 1 - i] + result;
 
         if ((i + 1) % 3 == 0 && i != number_string.length - 1) {
             result = "," + result;
-        } 
+        }
     }
 
     return result;
