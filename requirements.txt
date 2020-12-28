@@ -8,3 +8,4 @@ Unipath>=1.1
 seaborn==0.11.1
 Pillow>=8.0.1
 python-decouple>=3.3
+gunicorn==20.0.4
