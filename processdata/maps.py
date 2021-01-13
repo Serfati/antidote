@@ -11,14 +11,17 @@ show_mode = False
 covid = pd.read_csv('processdata/data/covid19_tweets.csv')
 covid['country_name'] = covid['user_location'].str.split(',').str[-1]
 covid['only_date'] = pd.to_datetime(covid['date']).dt.date
-country_code = pd.read_csv('https://raw.githubusercontent.com/plotly/datasets/master/2014_world_gdp_with_codes.csv')
-with_country_name = covid[covid['country_name'].isin(list(country_code['COUNTRY']))]
+country_code = pd.read_csv(
+    'https://raw.githubusercontent.com/plotly/datasets/master/2014_world_gdp_with_codes.csv')
+with_country_name = covid[covid['country_name'].isin(
+    list(country_code['COUNTRY']))]
 with_country_name['filtered_name'] = covid['country_name']
 covid['tweet_date'] = pd.to_datetime(covid['date']).dt.date
 
 df = pd.read_csv('processdata/data/covid_19_data.csv')
 df["Province/State"] = df["Province/State"].fillna('Unknown')
-df[["Confirmed", "Deaths", "Recovered"]] = df[["Confirmed", "Deaths", "Recovered"]].astype(int)
+df[["Confirmed", "Deaths", "Recovered"]] = df[[
+    "Confirmed", "Deaths", "Recovered"]].astype(int)
 df['Country/Region'] = df['Country/Region'].replace('Mainland China', 'China')
 df['Active_case'] = df['Confirmed'] - df['Deaths'] - df['Recovered']
 
@@ -44,7 +47,8 @@ def remove_newline(string):
 
 
 def remove_url(string):
-    text = re.sub('http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', '', string)
+    text = re.sub(
+        'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', '', string)
     return text
 
 
@@ -94,14 +98,16 @@ def play():
         paper_bgcolor='rgba(0,0,0,0)',
         margin={"r": 0, "t": 0, "l": 0, "b": 0},
     )
-    plot_div = plot(fig, include_plotlyjs=False, output_type='div', config={'displayModeBar': False})
+    plot_div = plot(fig, include_plotlyjs=False,
+                    output_type='div', config={'displayModeBar': False})
     return plot_div
 
 
 def marker():
     from numpy.random import randn
     global df
-    mark = df[df['ObservationDate'] == max(df['ObservationDate'])].reset_index()
+    mark = df[df['ObservationDate'] == max(
+        df['ObservationDate'])].reset_index()
     markers = mark.groupby(["Country/Region"])["Confirmed"].sum().reset_index().sort_values("Confirmed",
                                                                                             ascending=False).reset_index(
         drop=True)
@@ -123,13 +129,15 @@ def marker():
         margin={"r": 0, "t": 0, "l": 0, "b": 0},
     )
 
-    plot_div = plot(fig, include_plotlyjs=False, output_type='div', config={'displayModeBar': False})
+    plot_div = plot(fig, include_plotlyjs=False,
+                    output_type='div', config={'displayModeBar': False})
     return plot_div
 
 
 def death_ratio():
     global df
-    mark = df[df['ObservationDate'] == max(df['ObservationDate'])].reset_index()
+    mark = df[df['ObservationDate'] == max(
+        df['ObservationDate'])].reset_index()
     markers = mark.groupby(["Country/Region"])["Deaths"].sum().reset_index().sort_values("Deaths",
                                                                                          ascending=False).reset_index(
         drop=True)
@@ -151,26 +159,30 @@ def death_ratio():
         margin={"r": 0, "t": 0, "l": 0, "b": 0},
     )
 
-    plot_div = plot(fig, include_plotlyjs=False, output_type='div', config={'displayModeBar': False})
+    plot_div = plot(fig, include_plotlyjs=False,
+                    output_type='div', config={'displayModeBar': False})
     return plot_div
 
 
 def ring():
     global df
-    mark = df[df['ObservationDate'] == max(df['ObservationDate'])].reset_index()
+    mark = df[df['ObservationDate'] == max(
+        df['ObservationDate'])].reset_index()
     data_world = mark.groupby(["ObservationDate"])[
         ["Confirmed", "Active_case", "Recovered", "Deaths"]].sum().reset_index()
     colors = ['#132f65', '#8a8678', '#fae839']
     labels = ["Active cases", "Recovered", "Deaths"]
     values = data_world.loc[0, ["Active_case", "Recovered", "Deaths"]]
 
-    fig = go.Figure(data=[go.Pie(labels=labels, values=values, pull=[0, 0, 0.2], hole=0.5)])
+    fig = go.Figure(
+        data=[go.Pie(labels=labels, values=values, pull=[0, 0, 0.2], hole=0.5)])
 
     fig.update_traces(hoverinfo='label+percent', textinfo='value',
                       marker=dict(colors=colors, line=dict(color='#000000', width=0.5)))
 
     fig.update_layout(paper_bgcolor='rgba(0,0,0,0)', )
-    plot_div = plot(fig, include_plotlyjs=False, output_type='div', config={'displayModeBar': False})
+    plot_div = plot(fig, include_plotlyjs=False,
+                    output_type='div', config={'displayModeBar': False})
     if show_mode:
         fig.show()
     return plot_div
@@ -191,7 +203,8 @@ def activity():
 
     fig.update_layout(template="plotly_dark", )
 
-    plot_div = plot(fig, include_plotlyjs=False, output_type='div', config={'displayModeBar': False})
+    plot_div = plot(fig, include_plotlyjs=False,
+                    output_type='div', config={'displayModeBar': False})
     if show_mode:
         fig.show()
     return plot_div
@@ -201,10 +214,12 @@ def activity():
 
 def hashtag():
     covid['hash'] = covid['text'].apply(lambda x: find_hash(x))
-    hashtags = list(covid[(covid['hash'].notnull()) & (covid['hash'] != "")]['hash'])
+    hashtags = list(covid[(covid['hash'].notnull())
+                          & (covid['hash'] != "")]['hash'])
     hashtags = [each_string.lower() for each_string in hashtags]
     hash_df = dict(Counter(hashtags))
-    top_hash = pd.DataFrame(list(hash_df.items()), columns=['word', 'count']).sort_values('count', ascending=False)[:20]
+    top_hash = pd.DataFrame(list(hash_df.items()), columns=[
+                            'word', 'count']).sort_values('count', ascending=False)[:20]
     fig = go.Figure(
         go.Bar(
             x=top_hash['word'], y=top_hash['count'],
@@ -216,7 +231,8 @@ def hashtag():
 
     fig.update_layout(template="plotly_dark", )
 
-    plot_div = plot(fig, include_plotlyjs=False, output_type='div', config={'displayModeBar': False})
+    plot_div = plot(fig, include_plotlyjs=False,
+                    output_type='div', config={'displayModeBar': False})
     if show_mode:
         fig.show()
     return plot_div
@@ -236,7 +252,8 @@ def sources():
     ))
 
     fig.update_layout(template="plotly_dark")
-    plot_div = plot(fig, include_plotlyjs=False, output_type='div', config={'displayModeBar': False})
+    plot_div = plot(fig, include_plotlyjs=False,
+                    output_type='div', config={'displayModeBar': False})
     if show_mode:
         fig.show()
     return plot_div
@@ -247,14 +264,21 @@ def sources():
 def violin():
     global covid
     covid['refine_text'] = covid['text'].str.lower()
-    covid['refine_text'] = covid['refine_text'].apply(lambda x: remove_tag(str(x)))
-    covid['refine_text'] = covid['refine_text'].apply(lambda x: remove_mention(str(x)))
-    covid['refine_text'] = covid['refine_text'].apply(lambda x: remove_hash(str(x)))
-    covid['refine_text'] = covid['refine_text'].apply(lambda x: remove_newline(x))
+    covid['refine_text'] = covid['refine_text'].apply(
+        lambda x: remove_tag(str(x)))
+    covid['refine_text'] = covid['refine_text'].apply(
+        lambda x: remove_mention(str(x)))
+    covid['refine_text'] = covid['refine_text'].apply(
+        lambda x: remove_hash(str(x)))
+    covid['refine_text'] = covid['refine_text'].apply(
+        lambda x: remove_newline(x))
     covid['refine_text'] = covid['refine_text'].apply(lambda x: remove_url(x))
-    covid['refine_text'] = covid['refine_text'].apply(lambda x: remove_number(x))
-    covid['refine_text'] = covid['refine_text'].apply(lambda x: remove_punct(x))
-    covid['refine_text'] = covid['refine_text'].apply(lambda x: remove_thi_amp_ha_words(x))
+    covid['refine_text'] = covid['refine_text'].apply(
+        lambda x: remove_number(x))
+    covid['refine_text'] = covid['refine_text'].apply(
+        lambda x: remove_punct(x))
+    covid['refine_text'] = covid['refine_text'].apply(
+        lambda x: remove_thi_amp_ha_words(x))
     covid['refine_text'] = covid['refine_text'].apply(lambda x: text_strip(x))
 
     covid['text_length'] = covid['refine_text'].str.split().map(lambda x: len(x))
@@ -264,7 +288,8 @@ def violin():
 
     fig.update_layout(yaxis_zeroline=False, template="plotly_dark", )
 
-    plot_div = plot(fig, include_plotlyjs=False, output_type='div', config={'displayModeBar': False})
+    plot_div = plot(fig, include_plotlyjs=False,
+                    output_type='div', config={'displayModeBar': False})
     return plot_div
 
 
@@ -284,19 +309,22 @@ def get_israel_data():
     drop_list = ['Lat', 'Long', 'Country/Region', 'Province/State']
     # get death cases info
     countries_csv_death = pd.read_csv(path_url_death)
-    mask = [True if value == 'Israel' else False for value in countries_csv_death['Country/Region']]
+    mask = [True if value ==
+            'Israel' else False for value in countries_csv_death['Country/Region']]
     countries_data_death = countries_csv_death[mask]
     countries_data_death = countries_data_death.drop(columns=drop_list)
     countries_data_death['criteria'] = 'deaths'
     # get confirmed cases info
     countries_csv_confirmed = pd.read_csv(path_url_confirmed)
-    mask = [True if value == 'Israel' else False for value in countries_csv_confirmed['Country/Region']]
+    mask = [True if value ==
+            'Israel' else False for value in countries_csv_confirmed['Country/Region']]
     countries_csv_confirmed = countries_csv_confirmed[mask]
     countries_csv_confirmed = countries_csv_confirmed.drop(columns=drop_list)
     countries_csv_confirmed['criteria'] = 'confirmed'
     # get recovered cases info
     countries_csv_recovered = pd.read_csv(path_url_recoverd)
-    mask = [True if value == 'Israel' else False for value in countries_csv_recovered['Country/Region']]
+    mask = [True if value ==
+            'Israel' else False for value in countries_csv_recovered['Country/Region']]
     countries_csv_recovered = countries_csv_recovered[mask]
     countries_csv_recovered = countries_csv_recovered.drop(columns=drop_list)
     countries_csv_recovered['criteria'] = 'recovered'
@@ -314,19 +342,25 @@ def israel():
     recovered = israel_data.values[2]
     dates = israel_data.columns
 
-    deaths_scatter = go.Scatter(name='Deaths', x=dates, y=deaths, line=dict(color="#fae839", width=4))
-    confirmed_scatter = go.Scatter(name='Confirmed', x=dates, y=confirmed, line=dict(color="#132f65", width=4))
-    recovered_scatter = go.Scatter(name='Recovered', x=dates, y=recovered, line=dict(color="#8a8678", width=4))
+    deaths_scatter = go.Scatter(
+        name='Deaths', x=dates, y=deaths, line=dict(color="#fae839", width=4))
+    confirmed_scatter = go.Scatter(
+        name='Confirmed', x=dates, y=confirmed, line=dict(color="#132f65", width=4))
+    recovered_scatter = go.Scatter(
+        name='Recovered', x=dates, y=recovered, line=dict(color="#8a8678", width=4))
 
-    fig = go.Figure(data=[deaths_scatter, confirmed_scatter, recovered_scatter])
+    fig = go.Figure(
+        data=[deaths_scatter, confirmed_scatter, recovered_scatter])
 
-    fig.update_layout(showlegend=False, margin=dict(t=0, l=0, r=0, b=200),
+    fig.update_layout(showlegend=False, margin=dict(t=0, l=0, r=0, b=145),
                       paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)',
                       hovermode="closest",
                       yaxis=dict(automargin=True, gridcolor="#32325d"),
-                      xaxis=dict(automargin=True, showgrid=False),
+                      xaxis=dict(automargin=True, title='Israel Daily',
+                                 showgrid=False, visible=False),
                       font=dict(color='#ced4da'),
                       )
 
-    plot_div = plot(fig, include_plotlyjs=False, output_type='div', config={'displayModeBar': False})
+    plot_div = plot(fig, include_plotlyjs=False,
+                    output_type='div', config={'displayModeBar': False})
     return plot_div

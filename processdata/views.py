@@ -8,8 +8,8 @@ from . import getdata, maps
 
 def index(request):
     context = {
-        'ring': maps.ring(),
         'israel': maps.israel(),
+        'ring': maps.ring(),    
     }
     return render(request, template_name='index.html', context=context)
 
