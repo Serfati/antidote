@@ -1,15 +1,20 @@
 import json
 
 from django.http import HttpResponse
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
 from . import getdata, maps
 
 
+def home(request):
+    return HttpResponseRedirect("/index.html")
+
+
 def index(request):
     context = {
         'israel': maps.israel(),
-        'ring': maps.ring(),    
+        'ring': maps.ring(),
     }
     return render(request, template_name='index.html', context=context)
 
